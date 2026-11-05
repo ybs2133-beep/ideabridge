@@ -10,11 +10,12 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 검색엔진 로봇(구글, 네이버 등)이 읽어가는 메타 태그 주입
+# 구글 및 네이버 검색엔진 로봇이 읽어가는 메타 태그 주입
 st.markdown("""
     <head>
         <meta name="description" content="내 머릿속 숨은 아이디어, 도용 걱정 없이 안전하게 AI로 평가받고 거래하세요. 예비창업자 AI 사업성 진단 및 블라인드 티저 매칭 플랫폼">
         <meta name="keywords" content="아이디어스토어, 사업성 진단, AI 아이디어 평가, 특허 출원, 예비창업자, 정책자금, 블라인드 투자">
+        <meta name="naver-site-verification" content="39cab1b3d8f39de1c7508ff12075979363c71f58">
     </head>
 """, unsafe_allow_html=True)
 
@@ -31,7 +32,6 @@ with st.sidebar.expander("🔒 운영자 전용 메뉴"):
     admin_password = st.text_input("관리자 비밀번호", type="password")
     if admin_password == "1234": # 편의상 설정한 예시 비밀번호
         st.success("관리자 모드 활성화됨")
-        # 관리자 기능 (DB 다운로드 등) 추가 가능
 
 # 3. 메인 타이틀 및 탭 구성
 st.title("💡 아이디어스토어 (IdeaStore)")
@@ -68,7 +68,6 @@ with tab1:
                 st.warning("아이디어 내용을 입력해 주세요!")
             else:
                 with st.spinner("AI가 사업성, 시장성, 도용 방지 티저를 분석 중입니다..."):
-                    # 가상의 AI 분석 결과 연출 (실제 Gemini API 연동 코드로 확장 가능)
                     st.markdown("### AI 종합 사업성 점수")
                     st.markdown("# **82점 / 100점**")
                     st.caption("📈 상위 유망 아이템")
@@ -85,18 +84,15 @@ with tab1:
                     st.markdown("### 🤝 전문가 심층 상담 및 제휴 연결")
                     st.markdown("본 아이디어를 바탕으로 **특허 출원(변리사)** 또는 **정부지원금/정책자금 컨설팅**을 무료로 연계해 드립니다.")
                     
-                    # 구글 설문지 버튼 연결
                     st.link_button("📝 [무료] 예비창업자 심층 상담 신청하기 (구글 설문지)", "https://forms.gle/여기에본인설문지주소넣기")
 
 with tab2:
     st.subheader("🛒 프리미엄 아이디어 장터 (블라인드 티저 목록)")
     st.markdown("도용 위험 없이 검증된 유망 아이디어의 티저를 둘러보고, 상세 상담을 신청해 보세요.")
     
-    # 샘플 아이디어 카드 1
     with st.container(border=True):
         col_a, col_b = st.columns([3, 1])
         with col_a:
-        
             st.markdown("#### [IT/플랫폼] 1인 가구 소형 이삿짐 공유 및 빈차 매칭 플랫폼")
             st.caption("AI 사업성 평가 점수: 88점 | 희망 제휴: 시드 투자 유치")
             st.write("공차 거리(빈 트럭)를 활용하여 1인 가구 이사 비용을 50% 이상 절감하는 지역 기반 매칭 솔루션의 블라인드 티저입니다.")
@@ -104,7 +100,6 @@ with tab2:
             st.markdown("<br>", unsafe_allow_html=True)
             st.link_button("📋 상세 열람 및 NDA 신청", "https://forms.gle/여기에본인설문지주소넣기")
 
-    # 샘플 아이디어 카드 2
     with st.container(border=True):
         col_a, col_b = st.columns([3, 1])
         with col_a:
