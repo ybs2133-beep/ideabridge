@@ -16,6 +16,9 @@ st.set_page_config(
 DB_FILE = "leads_db.csv"
 ADMIN_PASSWORD = "Dudqls2133!"
 
+# 구글 설문지 링크 설정
+CONSULT_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSecUCny88Jm1_CQygUxOoRelxKN3313oSw6zDgGM3p3-OWHqw/viewform?usp=publish-editor"
+
 # 고객 DB(연락처)를 엑셀(CSV) 파일에 자동 저장하는 함수
 def save_lead(lead_type, name, phone, target_info, memo=""):
     file_exists = os.path.isfile(DB_FILE)
@@ -134,7 +137,7 @@ st.markdown("##### 내 머릿속 숨은 아이디어, 도용 걱정 없이 **안
 tab1, tab2 = st.tabs(["🚀 1단계: 아이디어 가치 진단", "🤝 2단계: 프리미엄 아이디어 장터"])
 
 # ---------------------------------------------------------
-# 탭 1: AI 아이디어 평가 + 블라인드 티저 생성 + DB 수집 폼
+# 탭 1: AI 아이디어 평가 + 블라인드 티저 생성 + 구글 설문지 연결
 # ---------------------------------------------------------
 with tab1:
     col_input, col_result = st.columns([1, 1.2], gap="large")
@@ -164,7 +167,7 @@ with tab1:
                 with st.spinner("AI 심사역이 시장성 분석 및 도용 방지 블라인드 카드를 생성 중입니다..."):
                     prompt = f"""
                     당신은 냉철한 벤처캐피탈(VC) 심사역이자 특허·제품화 전문가입니다.
-                    제안자의 아이디어를 분석하되, 투자자나 매수자에게 공개할 때는 아이디어가 도용되지 않도록 '핵심 구조는 가리고 시장성과 매력도만 강조한 블라인드 티저 제목'을 만들어야 합니다.
+                    제안자의 아이디어를 분석하되, 투자자나 매수자에게 공개할 때는 아이디어가 도용되지 않도록 '핵심 구조는 가리고 시장성과 매력도만 강조한 블라인드 티저 제목'을 만들어야 해요.
                     
                     [입력 정보]
                     - 분야: {category}
@@ -213,36 +216,22 @@ with tab1:
                     })
                     st.success("✅ 2단계 '프리미엄 아이디어 장터' 탭에 등록되었습니다!")
 
-            # 💰 핵심 수익 모델: 이름/연락처를 받는 DB 수집 폼
+            # 💰 핵심 수익 모델: 구글 설문지 바로가기 버튼 연결
             st.markdown("---")
             st.markdown("##### 🎁 내 아이디어 권리 보호 및 지원금·매수자 즉시 연결")
-            with st.expander("🛡️ [무료 진단 신청] 특허·실용신안 출원 가능성 & 정부지원금 매칭 받기", expanded=True):
-                with st.form("cpa_lead_form", clear_on_submit=True):
-                    st.caption("신청 즉시 담당 변리사 및 창업지원금 전문 컨설턴트가 비밀유지 하에 무료 진단을 도와드립니다.")
-                    f_col1, f_col2 = st.columns(2)
-                    with f_col1:
-                        c_name = st.text_input("신청자 성함", placeholder="홍길동")
-                    with f_col2:
-                        c_phone = st.text_input("연락처", placeholder="010-0000-0000")
-                    c_type = st.multiselect(
-                        "필요한 무료 지원 항목 (복수 선택 가능)",
-                        ["특허/실용신안 출원 및 도용 방지 상담", "정부지원금/시제품 제작비 지원 상담", "아이디어 매수 희망 기업 연결"],
-                        default=["특허/실용신안 출원 및 도용 방지 상담"]
-                    )
-                    submit_cpa = st.form_submit_button("✅ 무료 진단 및 매칭 신청하기", type="primary", use_container_width=True)
-                    if submit_cpa:
-                        if c_name and c_phone:
-                            save_lead("예비창업자_전문가매칭DB", c_name, c_phone, res["teaser_title"], ", ".join(c_type))
-                            st.success("🎉 무료 진단 신청이 완료되었습니다! 담당 전문가가 확인 후 연락드립니다.")
-                        else:
-                            st.warning("성함과 연락처를 모두 입력해 주세요.")
+            st.info("특허 출원 상담 및 정부지원금 매칭을 원하시면 아래 설문지 작성 버튼을 눌러주세요!")
+            st.link_button(
+                "📝 구글 설문지로 심층 상담 신청하기", 
+                CONSULT_FORM_URL,
+                use_container_width=True
+            )
 
 # ---------------------------------------------------------
 # 탭 2: 블라인드 투자 매칭 라운지 (아이디어 거래소)
 # ---------------------------------------------------------
 with tab2:
     st.subheader("🤝 프리미엄 아이디어 장터")
-    st.caption("모든 아이디어는 핵심 노하우가 가려진 상태로 공개됩니다. 상세 기획서 열람 및 제안자 연락은 '비밀유지서약(NDA) 동의 및 열람 신청' 후 가능합니다.")
+    st.caption("모든 아이디어는 핵심 노하우가 가려진 상태로 공개됩니다. 상세 기획서 열람 및 제안자 연락은 '비밀유지서약(NDA) 동의 및 열람 신청' 후 진행됩니다.")
 
     for item in st.session_state.idea_list:
         with st.container(border=True):
@@ -256,17 +245,9 @@ with tab2:
                 st.metric("AI 검증 점수", f"{item['score']}점")
             
             with st.expander(f"🔓 [{item['id']}번 아이디어] 상세 기획서 열람 & 제안자 미팅 신청하기"):
-                with st.form(f"invest_form_{item['id']}", clear_on_submit=True):
-                    i_col1, i_col2 = st.columns(2)
-                    with i_col1:
-                        inv_name = st.text_input("투자자/매수자 성함 (또는 기업명)")
-                    with i_col2:
-                        inv_phone = st.text_input("연락처")
-                    nda_check = st.checkbox("본 아이디어의 무단 도용 금지를 위한 비밀유지서약(NDA) 및 열람 보증금(30,000원) 예치 안내에 동의합니다.")
-                    inv_submit = st.form_submit_button("📩 열람 및 매수/투자 미팅 요청", use_container_width=True)
-                    if inv_submit:
-                        if inv_name and inv_phone and nda_check:
-                            save_lead("투자자_열람신청DB", inv_name, inv_phone, item["teaser_title"], "NDA 동의 완료")
-                            st.success("🎉 열람 신청이 접수되었습니다! 관리자 확인 후 상세 기획서 및 제안자 연결 안내 문자가 발송됩니다.")
-                        else:
-                            st.warning("성함, 연락처 입력 및 비밀유지서약(NDA) 동의에 체크해 주세요.")
+                st.write("상세 기획서 열람 및 미팅을 위해 아래 설문지를 작성해 주세요.")
+                st.link_button(
+                    "📝 투자자/매수자 열람 및 미팅 신청 설문지 작성",
+                    CONSULT_FORM_URL,
+                    use_container_width=True
+                )
