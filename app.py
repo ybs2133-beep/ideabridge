@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 import os
 
-# 1. 검색엔진 최적화(SEO) 및 브라우저 탭 설정
+# 1. 검색엔진 최적화(SEO) 및 브라우저 탭 설정 (구글 및 네이버 메타 태그 포함)
 st.set_page_config(
     page_title="아이디어스토어 (IdeaStore) - AI 아이디어 가치평가 및 블라인드 거래",
     page_icon="💡",
@@ -10,7 +10,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 구글 및 네이버 검색엔진 로봇이 읽어가는 메타 태그 주입
 st.markdown("""
     <head>
         <meta name="description" content="내 머릿속 숨은 아이디어, 도용 걱정 없이 안전하게 AI로 평가받고 거래하세요. 예비창업자 AI 사업성 진단 및 블라인드 티저 매칭 플랫폼">
