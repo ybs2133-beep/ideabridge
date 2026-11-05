@@ -14,7 +14,7 @@ st.markdown("""
     <head>
         <meta name="description" content="내 머릿속 숨은 아이디어, 도용 걱정 없이 안전하게 AI로 평가받고 거래하세요. 예비창업자 AI 사업성 진단 및 블라인드 티저 매칭 플랫폼">
         <meta name="keywords" content="아이디어스토어, 사업성 진단, AI 아이디어 평가, 특허 출원, 예비창업자, 정책자금, 블라인드 투자">
-        <meta name="naver-site-verification" content="39cab1b3d8f39de1c7508ff12075979363c71f58">
+        <meta name="naver-site-verification" content="39cab1b3d8f39de1c7508ff12075979363c71f58" />
     </head>
 """, unsafe_allow_html=True)
 
